@@ -1,0 +1,64 @@
+[
+  {
+    "id": "user1775556662544",
+    "email": "san@gmail.com",
+    "password": "test123",
+    "type": "intern",
+    "hasProfile": true,
+    "internData": {
+      "id": "intern1775556698160",
+      "name": "Santhosh K",
+      "college": "CEG",
+      "email": "san@gmail.com",
+      "totalDays": 30,
+      "department": "CSE",
+      "supervisor": "Joshika",
+      "createdDate": "2026-04-07",
+      "periods": {
+        "0": {
+          "projectTitle": "E-Commerce Customer Dashboard",
+          "summary": "Developing a responsive customer dashboard frontend using React and Tailwind CSS. The dashboard will allow users to view their order history, track current shipments, and manage profile settings. The project also involves integrating with a Node/Express backend via REST APIs to fetch real-time order data.",
+          "files": [],
+          "comment": ""
+        },
+        "1": {
+          "target": "Set up the React project, create the routing structure, design the layout navigation shell, and build the user profile page.",
+          "days": {
+            "1": {
+              "progress": "Initialized the React project using Vite. Configured Tailwind CSS and set up the basic folder structure for our dashboard components and pages.",
+              "file": null,
+              "comment": "",
+              "relevanceScore": 57
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "user1775556874157",
+    "email": "joshika@gmail.com",
+    "password": "test123",
+    "type": "teacher",
+    "hasProfile": false,
+    "name": "Joshika"
+  },
+  {
+    "id": "user1775557138134",
+    "email": "lavanya@gmail.com",
+    "password": "test123",
+    "type": "intern",
+    "hasProfile": true,
+    "internData": {
+      "id": "intern1775557161949",
+      "name": "Lavanya",
+      "college": "CEG",
+      "email": "lavanya@gmail.com",
+      "totalDays": 15,
+      "department": "CSE",
+      "supervisor": "Joshika",
+      "createdDate": "2026-04-07",
+      "periods": {}
+    }
+  }
+]

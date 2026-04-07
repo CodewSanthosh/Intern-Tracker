@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# DB
+# database.json # Uncomment if you want to exclude local DB
+
+# OS files
+.DS_Store
+Thumbs.db
