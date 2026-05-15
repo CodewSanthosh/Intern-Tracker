@@ -108,14 +108,18 @@ app.post('/api/analyze', async (req, res) => {
           score -= 25;
         }
 
-        // Apply a penalty if the progress string doesn't even share a single word with the task,
-        // preventing generic or "random" responses from artificially passing the threshold.
-        const taskWords = tasks[i].toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2);
+        // REQUIRE a strict keyword overlap (at least 65%) to ensure the user isn't just mentioning one small part of a complex string
+        const taskWords = tasks[i].toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !['with','this','that','from','into','build','create','using'].includes(w));
         const progressLower = progress_list[j].toLowerCase();
-        const hasKeywordMatch = taskWords.some(w => progressLower.includes(w));
         
-        if (!hasKeywordMatch && score < 82) {
-            score -= 20; 
+        if (taskWords.length > 0) {
+            const matchedCount = taskWords.filter(w => progressLower.includes(w)).length;
+            const matchRatio = matchedCount / taskWords.length;
+            
+            // If they miss a huge chunk of the concepts, slash the score to ensure it fails
+            if (matchRatio < 0.65) {
+                score -= 35;
+            }
         }
 
         best_score = Math.max(best_score, score);

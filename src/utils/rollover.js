@@ -1,10 +1,22 @@
+// Stopwords to exclude from keyword matching
+const ROLLOVER_STOPWORDS = new Set([
+  'the','a','an','is','are','was','were','be','been','being',
+  'have','has','had','do','does','did','will','would','could','should',
+  'may','might','can','to','of','in','for','on','with','at','by',
+  'from','up','into','and','or','but','if','that','this','these',
+  'those','what','which','who','how','all','each','both','few',
+  'more','most','other','such','very','just','also','as','than',
+  'create','build','using','learn','perform','make','apply','use',
+  'then','when','where','while','so','yet','nor','not','no', 'week'
+]);
+
 export function extractUncompletedTargets(targetStr, dailyProgresses) {
   if (!targetStr || typeof targetStr !== 'string') return [];
-  
+
   // Split target string into sub-tasks strictly by semicolon or newline
   const separators = /[;\n]/;
   const rawTasks = targetStr.split(separators);
-  
+
   const tasks = rawTasks.map(s => s.trim()).filter(s => s.length > 0);
   let uncompleted = [];
 
@@ -15,9 +27,9 @@ export function extractUncompletedTargets(targetStr, dailyProgresses) {
     const words = task.toLowerCase()
       .replace(/[^\w\s]/gi, '')
       .split(/\s+/)
-      .filter(w => w.length > 0 && !['with', 'this', 'that', 'then', 'from', 'into', 'learn', 'create', 'build', 'using'].includes(w));
+      .filter(w => w.length > 2 && !ROLLOVER_STOPWORDS.has(w));
     
-    // If we have no significant words, let's just use the task words
+    // If we have no significant words, let's just use all words
     const significantWords = words.length > 0 ? words : task.toLowerCase().split(/\s+/).filter(Boolean);
     if (significantWords.length === 0) continue;
 
@@ -35,10 +47,10 @@ export function extractUncompletedTargets(targetStr, dailyProgresses) {
        return negationRegex.test(pLower) && significantWords.some(w => pLower.includes(w));
     });
 
+    // REQUIRE 65% of the concepts to be mentioned! If only part of a complex task is done, roll over the WHOLE task.
     const matchRatio = matchedCount / significantWords.length;
     
-    // Require 40% match threshold. Automatically uncompleted if negated.
-    if (matchRatio < 0.4 || isNegated) {
+    if (matchRatio < 0.65 || isNegated) {
       // Recursively strip any previous "Rolled over from..." prefixes and symbols
       let cleanTask = task;
       while (cleanTask.match(/Rolled over from.*?:/i)) {
@@ -74,7 +86,7 @@ export function extractCompletedCount(periods) {
       const words = task.toLowerCase()
         .replace(/[^\w\s]/gi, '')
         .split(/\s+/)
-        .filter(w => w.length > 0 && !['with', 'this', 'that', 'then', 'from', 'into', 'learn', 'create', 'build', 'using', 'from', 'week'].includes(w));
+        .filter(w => w.length > 2 && !ROLLOVER_STOPWORDS.has(w));
       
       const significantWords = words.length > 0 ? words : task.toLowerCase().split(/\s+/).filter(Boolean);
       if (significantWords.length === 0) continue;
@@ -93,8 +105,8 @@ export function extractCompletedCount(periods) {
          return negationRegex.test(pLower) && significantWords.some(w => pLower.includes(w));
       });
 
-      // Require 40% match threshold. Must not be negated.
-      if (significantWords.length > 0 && matchRatio >= 0.4 && !isNegated) {
+      // Require 65% match threshold. Must not be negated.
+      if (significantWords.length > 0 && matchRatio >= 0.65 && !isNegated) {
         totalMatches++;
       }
     }

@@ -44,8 +44,8 @@ const getTotalPeriods = (totalDays) => {
 
 const isMeaningfulProgress = (text) => {
   if (!text) return false;
-  const clean = text.trim().replace(/[-_.* \t\n\r]/g, '');
-  return clean.length >= 2; // Must have at least 2 alpha-numeric characters
+  const words = text.trim().split(/\s+/).filter(w => w.length >= 2);
+  return words.length >= 2 && text.trim().length >= 8;
 };
 
 // Initial mock data for demo purposes
