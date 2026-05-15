@@ -713,7 +713,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
               });
 
               try {
-                const res = await fetch('http://localhost:3002/api/analyze', {
+                const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/api/analyze`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
@@ -1829,7 +1829,7 @@ export default function InternTracker() {
 
   // Load data from backend on startup (primary source of truth)
   useEffect(() => {
-    fetch('http://localhost:3002/api/load')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/api/load`)
       .then(res => res.json())
       .then(data => {
         if (data && Array.isArray(data) && data.length > 0) {
@@ -1850,7 +1850,7 @@ export default function InternTracker() {
   useEffect(() => {
     if (!backendLoaded.current) return; // Don't save until backend data has loaded
     if (users && users.length > 0) {
-      fetch('http://localhost:3002/api/save', {
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/api/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(users)
