@@ -5,7 +5,7 @@ import path from 'path';
 import { pipeline } from '@xenova/transformers';
 
 const app = express();
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 const DB_FILE = path.join(process.cwd(), 'database.json');
 
 app.use(cors());

@@ -7,12 +7,12 @@ import XLSX from 'xlsx-js-style';
 // Utility functions
 const calculateDayNumber = (intern) => {
   if (typeof intern === 'string' || intern instanceof Date) {
-      // Backwards compatibility for components passing createdDate
-      const created = new Date(intern);
-      const today = new Date();
-      return Math.max(1, Math.ceil(Math.abs(today - created) / (1000 * 60 * 60 * 24)));
+    // Backwards compatibility for components passing createdDate
+    const created = new Date(intern);
+    const today = new Date();
+    return Math.max(1, Math.ceil(Math.abs(today - created) / (1000 * 60 * 60 * 24)));
   }
-  
+
   // Self-paced self-advancing day limit
   if (!intern || !intern.periods) return 1;
   let daysSubmitted = 0;
@@ -155,7 +155,7 @@ const AuthScreen = ({ onLogin }) => {
               type="email"
               required
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="your.email@annauniv.edu"
             />
           </div>
@@ -169,7 +169,7 @@ const AuthScreen = ({ onLogin }) => {
               type="password"
               required
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="Enter your password"
             />
           </div>
@@ -185,7 +185,7 @@ const AuthScreen = ({ onLogin }) => {
                   type="password"
                   required
                   value={formData.confirmPassword}
-                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   placeholder="Re-enter your password"
                 />
               </div>
@@ -202,7 +202,7 @@ const AuthScreen = ({ onLogin }) => {
                       name="userType"
                       value="intern"
                       checked={formData.userType === 'intern'}
-                      onChange={(e) => setFormData({...formData, userType: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
                     />
                     <span>Intern</span>
                   </label>
@@ -212,7 +212,7 @@ const AuthScreen = ({ onLogin }) => {
                       name="userType"
                       value="teacher"
                       checked={formData.userType === 'teacher'}
-                      onChange={(e) => setFormData({...formData, userType: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
                     />
                     <span>Faculty Member</span>
                   </label>
@@ -229,7 +229,7 @@ const AuthScreen = ({ onLogin }) => {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Dr. Your Name"
                   />
                 </div>
@@ -244,7 +244,7 @@ const AuthScreen = ({ onLogin }) => {
 
         <div className="auth-toggle">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button 
+          <button
             type="button"
             onClick={() => {
               setIsLogin(!isLogin);
@@ -270,33 +270,33 @@ const AuthScreen = ({ onLogin }) => {
         </div>
 
         <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="btn-secondary btn-small"
             style={{ fontSize: '12px', padding: '6px 12px' }}
             onClick={() => {
-               const data = localStorage.getItem('anna_univ_users');
-               if (data) {
-                 const blob = new Blob([data], { type: 'application/json' });
-                 const url = URL.createObjectURL(blob);
-                 const a = document.createElement('a');
-                 a.href = url;
-                 a.download = `anna_university_backup_${new Date().toISOString().split('T')[0]}.json`;
-                 a.click();
-                 URL.revokeObjectURL(url);
-               } else {
-                 alert('No stored data to backup yet!');
-               }
+              const data = localStorage.getItem('anna_univ_users');
+              if (data) {
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `anna_university_backup_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+              } else {
+                alert('No stored data to backup yet!');
+              }
             }}
           >
             Download Data Backup
           </button>
           <label className="btn-secondary btn-small" style={{ display: 'inline-flex', alignItems: 'center', fontSize: '12px', padding: '6px 12px', cursor: 'pointer', margin: 0 }}>
             Restore Backup
-            <input 
-              type="file" 
-              accept=".json" 
-              style={{ display: 'none' }} 
+            <input
+              type="file"
+              accept=".json"
+              style={{ display: 'none' }}
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
@@ -350,7 +350,7 @@ const InternProfileSetup = ({ onComplete }) => {
         <h1>Intern Registration</h1>
         <p>Welcome to Anna University Internship Tracking System</p>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="setup-form">
         <div className="form-grid">
           <div className="form-group">
@@ -359,43 +359,43 @@ const InternProfileSetup = ({ onComplete }) => {
               type="text"
               required
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Enter your full name"
             />
           </div>
-          
+
           <div className="form-group">
             <label>Email Address *</label>
             <input
               type="email"
               required
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="your.email@annauniv.edu"
             />
           </div>
-          
+
           <div className="form-group">
             <label>College/Campus *</label>
             <input
               type="text"
               required
               value={formData.college}
-              onChange={(e) => setFormData({...formData, college: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, college: e.target.value })}
               placeholder="e.g., Anna University - CEG Campus"
             />
           </div>
-          
+
           <div className="form-group">
             <label>Department</label>
             <input
               type="text"
               value={formData.department}
-              onChange={(e) => setFormData({...formData, department: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
               placeholder="e.g., Computer Science"
             />
           </div>
-          
+
           <div className="form-group">
             <label>Internship Duration (days) *</label>
             <input
@@ -404,26 +404,26 @@ const InternProfileSetup = ({ onComplete }) => {
               min="7"
               max="365"
               value={formData.totalDays}
-              onChange={(e) => setFormData({...formData, totalDays: parseInt(e.target.value)})}
+              onChange={(e) => setFormData({ ...formData, totalDays: parseInt(e.target.value) })}
             />
             <small>
-              {formData.totalDays <= 21 
+              {formData.totalDays <= 21
                 ? '⚡ Short-term: Progress tracked every 3 days'
                 : '📅 Long-term: Progress tracked weekly'}
             </small>
           </div>
-          
+
           <div className="form-group">
             <label>Faculty Supervisor</label>
             <input
               type="text"
               value={formData.supervisor}
-              onChange={(e) => setFormData({...formData, supervisor: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, supervisor: e.target.value })}
               placeholder="Supervisor name (optional)"
             />
           </div>
         </div>
-        
+
         <button type="submit" className="btn-primary">
           Start Internship Journey
         </button>
@@ -438,12 +438,12 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
   const currentPeriod = getCurrentPeriod(dayNumber, intern.totalDays);
   const periodType = getPeriodType(intern.totalDays);
   const periodLength = getPeriodLength(intern.totalDays);
-  
+
   const periods = intern.periods || {};
   const week0Data = periods[0] || { projectTitle: '', summary: '', files: [], comment: '' };
   const hasWeek0Complete = Boolean(week0Data.projectTitle && week0Data.summary);
   const defaultPeriod = !hasWeek0Complete ? 0 : Math.max(1, Math.min(currentPeriod, getTotalPeriods(intern.totalDays) - 1));
-  
+
   const [selectedPeriod, setSelectedPeriod] = useState(defaultPeriod);
   const [targetInput, setTargetInput] = useState('');
   const [dailyProgress, setDailyProgress] = useState({});
@@ -464,9 +464,9 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
   const [showProjectComplete, setShowProjectComplete] = useState(
     intern.periods?.final?.submitted || false
   );
-  
+
   const currentPeriodData = periods[selectedPeriod] || { target: '', days: {} };
-  
+
   useEffect(() => {
     if (selectedPeriod > 1) {
       const currentPd = periods[selectedPeriod] || {};
@@ -492,8 +492,8 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
         }
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPeriod, periods]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPeriod, periods]);
   // Calculate attendance (Week 0 counts as 1, plus daily submissions)
   const totalDaysWithProgress = (hasWeek0Complete ? 1 : 0) + Object.values(periods).reduce((acc, period) => {
     if (period && typeof period === 'object' && period.days) {
@@ -501,17 +501,17 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     }
     return acc;
   }, 0);
-  
+
   const periodStart = selectedPeriod === 0 ? 0 : ((selectedPeriod - 1) * periodLength) + 1;
   const periodEnd = selectedPeriod === 0 ? 0 : Math.min(selectedPeriod * periodLength, intern.totalDays);
   const daysInPeriod = selectedPeriod === 0 ? [] : [];
   for (let i = periodStart; i <= periodEnd && selectedPeriod > 0; i++) {
     daysInPeriod.push(i);
   }
-  
+
   const handleTargetSubmit = () => {
     if (!targetInput.trim()) return;
-    
+
     const updatedIntern = {
       ...intern,
       periods: {
@@ -526,7 +526,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     setTargetInput('');
     setShowTargetInput(false);
   };
-  
+
   const handleInitializeTarget = () => {
     let initialText = '';
     // Check if there are missing targets from the previous period
@@ -536,7 +536,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
         const progressList = Object.values(prevPeriod.days)
           .map(d => d.progress)
           .filter(Boolean);
-        
+
         const uncompleted = extractUncompletedTargets(prevPeriod.target, progressList);
         if (uncompleted.length > 0) {
           initialText = `Rolled over from ${getPeriodLabel(selectedPeriod - 1, intern.totalDays)}: ${uncompleted.join('; ')};`;
@@ -546,11 +546,11 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     setTargetInput(initialText);
     setShowTargetInput(true);
   };
-  
+
   const handleProgressSubmit = (day) => {
     const progress = dailyProgress[day];
     if (!progress?.text?.trim()) return;
-    
+
     const updatedIntern = {
       ...intern,
       periods: {
@@ -569,9 +569,9 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
       }
     };
     onUpdate(updatedIntern);
-    setDailyProgress({...dailyProgress, [day]: { text: '', file: null }});
+    setDailyProgress({ ...dailyProgress, [day]: { text: '', file: null } });
   };
-  
+
   const handleFileUpload = (day, e) => {
     const file = e.target.files[0];
     if (file) {
@@ -585,7 +585,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
       });
     }
   };
-  
+
   const handleWeek0Submit = (e) => {
     e.preventDefault();
     if (!week0Form.projectTitle.trim() || !week0Form.summary.trim()) return;
@@ -605,7 +605,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     onUpdate(updatedIntern);
     setSelectedPeriod(1);
   };
-  
+
   const handleWeek0FileAdd = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -617,16 +617,16 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     }
     e.target.value = '';
   };
-  
+
   const handleWeek0FileRemove = (idx) => {
     setWeek0Form({
       ...week0Form,
       files: week0Form.files.filter((_, i) => i !== idx)
     });
   };
-  
+
   const totalPeriods = getTotalPeriods(intern.totalDays);
-  
+
   return (
     <div className="intern-dashboard">
       <div className="top-bar">
@@ -638,7 +638,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
           Logout
         </button>
       </div>
-      
+
       <div className="dashboard-header">
         <div className="header-content">
           <h1>Welcome back, {intern.name.split(' ')[0]}! 👋</h1>
@@ -653,9 +653,9 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
           </div>
         </div>
       </div>
-      
 
-      
+
+
       <div className="stats-grid">
         <div className="stat-card day-stat">
           <div className="stat-icon"><Calendar size={24} /></div>
@@ -665,7 +665,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             <div className="stat-subtext">of {intern.totalDays} days</div>
           </div>
         </div>
-        
+
         <div className="stat-card attendance-stat">
           <div className="stat-icon"><CheckCircle size={24} /></div>
           <div className="stat-content">
@@ -674,7 +674,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             <div className="stat-subtext">{Math.min(100, Math.round((totalDaysWithProgress / ((intern.totalDays || 1) + 1)) * 100))}% attendance</div>
           </div>
         </div>
-        
+
         <div className="stat-card period-stat">
           <div className="stat-icon"><Target size={24} /></div>
           <div className="stat-content">
@@ -690,7 +690,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
           <p style={{ margin: '8px 0 0 0', opacity: 0.9, fontSize: '15px' }}>Get an AI-estimated completion percentage based on all your submitted progress.</p>
         </div>
         {aiAnalysis === null ? (
-          <button 
+          <button
             style={{ padding: '14px 28px', background: 'white', color: '#6e8efb', border: 'none', borderRadius: '12px', fontWeight: 'bold', fontSize: '15px', cursor: isAnalyzing ? 'wait' : 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', transition: 'transform 0.2s', display: 'flex', alignItems: 'center', gap: '8px' }}
             disabled={isAnalyzing}
             onClick={async () => {
@@ -700,7 +700,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
               Object.values(intern.periods || {}).forEach(period => {
                 if (period.target) summary += period.target + ". ";
               });
-              
+
               let allProgressList = [];
               Object.values(intern.periods || {}).forEach(period => {
                 if (period.days) {
@@ -711,23 +711,23 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
                   });
                 }
               });
-              
+
               try {
                 const res = await fetch('http://localhost:3002/api/analyze', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ 
-                    summary, 
+                  body: JSON.stringify({
+                    summary,
                     progress: allProgressList,
                     totalDays: intern.totalDays || 35
                   })
                 });
-                
+
                 if (!res.ok) {
-                    const text = await res.text();
-                    throw new Error(text.includes('<!DOCTYPE') ? 'Server route not found! Please restart your Node server.' : text);
+                  const text = await res.text();
+                  throw new Error(text.includes('<!DOCTYPE') ? 'Server route not found! Please restart your Node server.' : text);
                 }
-                
+
                 const data = await res.json();
                 setAiAnalysis(data); // Store the entire object
               } catch (err) {
@@ -782,7 +782,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
           {[...Array(22)].map((_, i) => (
             <div key={i} className="confetti-piece" style={{
               left: `${(i * 4.5) % 100}%`,
-              background: ['#FFD700','#FF6B6B','#4ECDC4','#A29BFE','#FD79A8','#55EFC4','#FDCB6E'][i % 7],
+              background: ['#FFD700', '#FF6B6B', '#4ECDC4', '#A29BFE', '#FD79A8', '#55EFC4', '#FDCB6E'][i % 7],
               animationDuration: `${2.2 + (i % 5) * 0.4}s`,
               animationDelay: `${(i * 0.18) % 2}s`,
               transform: `rotate(${i * 17}deg)`
@@ -863,7 +863,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
           </div>
         </div>
       )}
-      
+
       <div className="progress-section">
         <div className="section-header">
           <h2>Progress Tracking</h2>
@@ -904,7 +904,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             </div>
           </div>
         </div>
-        
+
         {selectedPeriod === 999 ? (
           /* ─── FINAL SUBMISSION SECTION ─── */
           (() => {
@@ -915,7 +915,7 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
               const progressList = Object.values(pData.days || {}).map(d => d.progress).filter(Boolean);
               const combined = progressList.join(' ').toLowerCase();
               pData.target.split(';').flatMap(s => s.split('\n')).map(s => s.trim()).filter(Boolean).forEach(task => {
-                const kws = task.toLowerCase().replace(/[^\w\s]/gi,'').split(/\s+/).filter(w => w.length > 3);
+                const kws = task.toLowerCase().replace(/[^\w\s]/gi, '').split(/\s+/).filter(w => w.length > 3);
                 const matched = kws.some(kw => combined.includes(kw));
                 if (!matched) allPending.push(task);
               });
@@ -1159,157 +1159,157 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             )}
           </div>
         ) : (
-        <>
-        <div className="target-section">
-          <div className="target-header">
-            <Target size={20} />
-            <h3>{getPeriodLabel(selectedPeriod, intern.totalDays)} Target</h3>
-          </div>
-          {showTargetInput ? (
-            <div className="target-input">
-              <textarea
-                value={targetInput}
-                onChange={(e) => setTargetInput(e.target.value)}
-                placeholder={`What do you plan to achieve in ${getPeriodLabel(selectedPeriod, intern.totalDays).toLowerCase()}?`}
-                rows={3}
-              />
-              <div className="button-group">
-                <button className="btn-primary" onClick={handleTargetSubmit}>
-                  Set Target
-                </button>
-                <button className="btn-secondary" onClick={() => setShowTargetInput(false)}>
-                  Cancel
-                </button>
+          <>
+            <div className="target-section">
+              <div className="target-header">
+                <Target size={20} />
+                <h3>{getPeriodLabel(selectedPeriod, intern.totalDays)} Target</h3>
               </div>
-            </div>
-          ) : currentPeriodData.target ? (
-            <div className="target-display">
-              <p>{currentPeriodData.target}</p>
-              <button 
-                className="btn-secondary btn-small"
-                onClick={() => {
-                  setTargetInput(currentPeriodData.target);
-                  setShowTargetInput(true);
-                }}
-              >
-                Edit Target
-              </button>
-            </div>
-          ) : (
-            <div className="target-empty">
-              <p>No target set for this period</p>
-              <button className="btn-primary" onClick={handleInitializeTarget}>
-                <Target size={16} />
-                Set Target
-              </button>
-            </div>
-          )}
-        </div>
-        
-        <div className="daily-progress">
-          <h3>Daily Progress (Days {periodStart}-{periodEnd})</h3>
-          {daysInPeriod.map(day => {
-            const dayData = currentPeriodData.days?.[day];
-            const hasProgress = Boolean(dayData?.progress);
-            const isPast = day < dayNumber;
-            const isToday = day === dayNumber;
-            
-            return (
-              <div key={day} className={`day-entry ${hasProgress ? 'completed' : ''} ${isToday ? 'today' : ''}`}>
-                <div className="day-header">
-                  <div className="day-number">
-                    <span className="day-badge">Day {day}</span>
-                    {isToday && <span className="today-badge">Today</span>}
-                    {hasProgress && <CheckCircle size={16} className="check-icon" />}
+              {showTargetInput ? (
+                <div className="target-input">
+                  <textarea
+                    value={targetInput}
+                    onChange={(e) => setTargetInput(e.target.value)}
+                    placeholder={`What do you plan to achieve in ${getPeriodLabel(selectedPeriod, intern.totalDays).toLowerCase()}?`}
+                    rows={3}
+                  />
+                  <div className="button-group">
+                    <button className="btn-primary" onClick={handleTargetSubmit}>
+                      Set Target
+                    </button>
+                    <button className="btn-secondary" onClick={() => setShowTargetInput(false)}>
+                      Cancel
+                    </button>
                   </div>
                 </div>
-                
-                {hasProgress ? (
-                  <div className="day-content completed-content">
-                    <div className="progress-display">
-                      <div className="progress-text">
-                        <strong>Progress:</strong>
-                        <p>{dayData.progress}</p>
+              ) : currentPeriodData.target ? (
+                <div className="target-display">
+                  <p>{currentPeriodData.target}</p>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() => {
+                      setTargetInput(currentPeriodData.target);
+                      setShowTargetInput(true);
+                    }}
+                  >
+                    Edit Target
+                  </button>
+                </div>
+              ) : (
+                <div className="target-empty">
+                  <p>No target set for this period</p>
+                  <button className="btn-primary" onClick={handleInitializeTarget}>
+                    <Target size={16} />
+                    Set Target
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="daily-progress">
+              <h3>Daily Progress (Days {periodStart}-{periodEnd})</h3>
+              {daysInPeriod.map(day => {
+                const dayData = currentPeriodData.days?.[day];
+                const hasProgress = Boolean(dayData?.progress);
+                const isPast = day < dayNumber;
+                const isToday = day === dayNumber;
+
+                return (
+                  <div key={day} className={`day-entry ${hasProgress ? 'completed' : ''} ${isToday ? 'today' : ''}`}>
+                    <div className="day-header">
+                      <div className="day-number">
+                        <span className="day-badge">Day {day}</span>
+                        {isToday && <span className="today-badge">Today</span>}
+                        {hasProgress && <CheckCircle size={16} className="check-icon" />}
                       </div>
-                      {dayData.file && (
-                        <div className="file-display">
-                          <Upload size={14} />
-                          <a
-                            href={dayData.file.url}
-                            download={dayData.file.name}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {dayData.file.name}
-                          </a>
-                        </div>
-                      )}
                     </div>
-                    {dayData.comment && (
-                      <div className="teacher-comment">
-                        <MessageSquare size={16} />
-                        <div>
-                          <strong>Faculty Feedback:</strong>
-                          <p>{dayData.comment}</p>
+
+                    {hasProgress ? (
+                      <div className="day-content completed-content">
+                        <div className="progress-display">
+                          <div className="progress-text">
+                            <strong>Progress:</strong>
+                            <p>{dayData.progress}</p>
+                          </div>
+                          {dayData.file && (
+                            <div className="file-display">
+                              <Upload size={14} />
+                              <a
+                                href={dayData.file.url}
+                                download={dayData.file.name}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {dayData.file.name}
+                              </a>
+                            </div>
+                          )}
                         </div>
+                        {dayData.comment && (
+                          <div className="teacher-comment">
+                            <MessageSquare size={16} />
+                            <div>
+                              <strong>Faculty Feedback:</strong>
+                              <p>{dayData.comment}</p>
+                            </div>
+                          </div>
+                        )}
                       </div>
+                    ) : (
+                      !hasProgress && (
+                        <div className="day-content">
+                          <textarea
+                            value={dailyProgress[day]?.text || ''}
+                            onChange={(e) => setDailyProgress({
+                              ...dailyProgress,
+                              [day]: { ...dailyProgress[day], text: e.target.value }
+                            })}
+                            placeholder="What did you work on today? Describe your progress, challenges, and learnings..."
+                            rows={3}
+                          />
+                          <div className="day-actions">
+                            <div className="file-upload">
+                              <input
+                                type="file"
+                                id={`file-${day}`}
+                                accept=".pdf,.png,.jpg,.jpeg"
+                                onChange={(e) => handleFileUpload(day, e)}
+                              />
+                              <label htmlFor={`file-${day}`} className="file-label">
+                                <Upload size={16} />
+                                {dailyProgress[day]?.file?.name || 'Upload Output'}
+                              </label>
+                            </div>
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                              <button
+                                className="btn-primary"
+                                onClick={() => handleProgressSubmit(day)}
+                                disabled={!dailyProgress[day]?.text?.trim()}
+                              >
+                                Submit Progress
+                              </button>
+
+                            </div>
+                          </div>
+                        </div>
+                      )
                     )}
                   </div>
-                ) : (
-                  !hasProgress && (
-                    <div className="day-content">
-                      <textarea
-                        value={dailyProgress[day]?.text || ''}
-                        onChange={(e) => setDailyProgress({
-                          ...dailyProgress,
-                          [day]: { ...dailyProgress[day], text: e.target.value }
-                        })}
-                        placeholder="What did you work on today? Describe your progress, challenges, and learnings..."
-                        rows={3}
-                      />
-                      <div className="day-actions">
-                        <div className="file-upload">
-                          <input
-                            type="file"
-                            id={`file-${day}`}
-                            accept=".pdf,.png,.jpg,.jpeg"
-                            onChange={(e) => handleFileUpload(day, e)}
-                          />
-                          <label htmlFor={`file-${day}`} className="file-label">
-                            <Upload size={16} />
-                            {dailyProgress[day]?.file?.name || 'Upload Output'}
-                          </label>
-                        </div>
-                        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                          <button 
-                            className="btn-primary"
-                            onClick={() => handleProgressSubmit(day)}
-                            disabled={!dailyProgress[day]?.text?.trim()}
-                          >
-                            Submit Progress
-                          </button>
-
-                        </div>
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
-            );
-          })}
-        </div>
-        </>
+                );
+              })}
+            </div>
+          </>
         )}
 
-      {/* 🎓 Project Completion Overlay */}
-      {showProjectComplete && (
-        <div style={{
-          position:'fixed', inset:0, zIndex:10000,
-          background:'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',
-          display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-          animation:'cpFadeIn 0.6s ease'
-        }}>
-          <style>{`
+        {/* 🎓 Project Completion Overlay */}
+        {showProjectComplete && (
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 10000,
+            background: 'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            animation: 'cpFadeIn 0.6s ease'
+          }}>
+            <style>{`
             @keyframes cpFadeIn{from{opacity:0}to{opacity:1}}
             @keyframes cpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
             @keyframes cpPop{0%{transform:scale(0.5);opacity:0}80%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
@@ -1317,36 +1317,36 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             .cp-piece{position:fixed;top:-20px;width:10px;height:14px;animation:cpFall linear infinite;border-radius:2px;}
             @media print{body *{visibility:hidden;}#csr-cert,#csr-cert *{visibility:visible;}#csr-cert{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:white !important;}.cp-noprint{display:none !important;}}
           `}</style>
-          {[...Array(24)].map((_,i)=>(
-            <div key={i} className="cp-piece" style={{
-              left:`${(i*4.2)%100}%`,
-              background:['#FFD700','#FF6B6B','#4ECDC4','#A29BFE','#FD79A8','#55EFC4','#FDCB6E'][i%7],
-              animationDuration:`${2.0+(i%5)*0.35}s`,
-              animationDelay:`${(i*0.15)%2}s`
-            }}/>
-          ))}
-          <div id="csr-cert" style={{textAlign:'center',padding:'40px',maxWidth:'700px'}}>
-            <div style={{fontSize:'96px',animation:'cpFloat 2.4s ease-in-out infinite',marginBottom:'12px'}}>🎓</div>
-            <div style={{background:'linear-gradient(90deg,#FFD700,#FFA500,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',fontSize:'40px',fontWeight:'900',marginBottom:'10px',animation:'cpPop 0.7s ease both'}}>Project Completed! 🎉</div>
-            <div style={{color:'white',fontSize:'22px',fontWeight:'700',marginBottom:'8px',animation:'cpPop 0.9s ease both'}}>{intern.name}</div>
-            <div style={{color:'rgba(255,255,255,0.8)',fontSize:'16px',lineHeight:'1.8',marginBottom:'28px',animation:'cpPop 1.1s ease both'}}>
-              You have successfully completed your internship project!<br/>
-              <span style={{color:'#FFD700',fontWeight:'700'}}>Your CSR and final report</span> have been submitted.
-            </div>
-            <div style={{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:'16px',padding:'24px 36px',marginBottom:'32px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'14px',animation:'cpPop 1.3s ease both'}}>
-              <div style={{color:'rgba(255,255,255,0.6)',fontSize:'13px'}}>Intern</div><div style={{color:'white',fontWeight:'600',textAlign:'right'}}>{intern.name}</div>
-              <div style={{color:'rgba(255,255,255,0.6)',fontSize:'13px'}}>College</div><div style={{color:'white',fontWeight:'600',textAlign:'right'}}>{intern.college}</div>
-              {intern.department&&<><div style={{color:'rgba(255,255,255,0.6)',fontSize:'13px'}}>Department</div><div style={{color:'white',fontWeight:'600',textAlign:'right'}}>{intern.department}</div></>}
-              <div style={{color:'rgba(255,255,255,0.6)',fontSize:'13px'}}>Duration</div><div style={{color:'white',fontWeight:'600',textAlign:'right'}}>{intern.totalDays} Days</div>
-              <div style={{color:'rgba(255,255,255,0.6)',fontSize:'13px'}}>CSR</div><div style={{color:'#4ECDC4',fontWeight:'700',textAlign:'right'}}>✔ {finalSubmission.csrFile?.name||'Submitted'}</div>
-            </div>
-            <div className="cp-noprint" style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
-              <button onClick={()=>window.print()} style={{padding:'14px 32px',borderRadius:'12px',border:'none',cursor:'pointer',background:'linear-gradient(135deg,#FFD700,#FFA500)',color:'#1a1a2e',fontWeight:'800',fontSize:'16px',boxShadow:'0 6px 20px rgba(255,215,0,0.4)'}}>🖨️ Print Certificate</button>
-              <button onClick={()=>setShowProjectComplete(false)} style={{padding:'14px 32px',borderRadius:'12px',border:'1px solid rgba(255,255,255,0.3)',cursor:'pointer',background:'transparent',color:'white',fontWeight:'600',fontSize:'16px'}}>← Back to Dashboard</button>
+            {[...Array(24)].map((_, i) => (
+              <div key={i} className="cp-piece" style={{
+                left: `${(i * 4.2) % 100}%`,
+                background: ['#FFD700', '#FF6B6B', '#4ECDC4', '#A29BFE', '#FD79A8', '#55EFC4', '#FDCB6E'][i % 7],
+                animationDuration: `${2.0 + (i % 5) * 0.35}s`,
+                animationDelay: `${(i * 0.15) % 2}s`
+              }} />
+            ))}
+            <div id="csr-cert" style={{ textAlign: 'center', padding: '40px', maxWidth: '700px' }}>
+              <div style={{ fontSize: '96px', animation: 'cpFloat 2.4s ease-in-out infinite', marginBottom: '12px' }}>🎓</div>
+              <div style={{ background: 'linear-gradient(90deg,#FFD700,#FFA500,#FFD700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: '40px', fontWeight: '900', marginBottom: '10px', animation: 'cpPop 0.7s ease both' }}>Project Completed! 🎉</div>
+              <div style={{ color: 'white', fontSize: '22px', fontWeight: '700', marginBottom: '8px', animation: 'cpPop 0.9s ease both' }}>{intern.name}</div>
+              <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', lineHeight: '1.8', marginBottom: '28px', animation: 'cpPop 1.1s ease both' }}>
+                You have successfully completed your internship project!<br />
+                <span style={{ color: '#FFD700', fontWeight: '700' }}>Your CSR and final report</span> have been submitted.
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '24px 36px', marginBottom: '32px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', animation: 'cpPop 1.3s ease both' }}>
+                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Intern</div><div style={{ color: 'white', fontWeight: '600', textAlign: 'right' }}>{intern.name}</div>
+                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>College</div><div style={{ color: 'white', fontWeight: '600', textAlign: 'right' }}>{intern.college}</div>
+                {intern.department && <><div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Department</div><div style={{ color: 'white', fontWeight: '600', textAlign: 'right' }}>{intern.department}</div></>}
+                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>Duration</div><div style={{ color: 'white', fontWeight: '600', textAlign: 'right' }}>{intern.totalDays} Days</div>
+                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>CSR</div><div style={{ color: '#4ECDC4', fontWeight: '700', textAlign: 'right' }}>✔ {finalSubmission.csrFile?.name || 'Submitted'}</div>
+              </div>
+              <div className="cp-noprint" style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button onClick={() => window.print()} style={{ padding: '14px 32px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: '#1a1a2e', fontWeight: '800', fontSize: '16px', boxShadow: '0 6px 20px rgba(255,215,0,0.4)' }}>🖨️ Print Certificate</button>
+                <button onClick={() => setShowProjectComplete(false)} style={{ padding: '14px 32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.3)', cursor: 'pointer', background: 'transparent', color: 'white', fontWeight: '600', fontSize: '16px' }}>← Back to Dashboard</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );
@@ -1358,11 +1358,11 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
   const [selectedIntern, setSelectedIntern] = useState(null);
   const [selectedPeriod, setSelectedPeriod] = useState(0);
   const [comments, setComments] = useState({});
-  
+
   const handleCommentSubmit = (internId, period, day) => {
     const comment = comments[`${internId}-${period}-${day}`];
     if (!comment?.trim()) return;
-    
+
     const intern = interns.find(i => i.id === internId);
     const updatedIntern = {
       ...intern,
@@ -1381,13 +1381,13 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
       }
     };
     onUpdateIntern(updatedIntern);
-    setComments({...comments, [`${internId}-${period}-${day}`]: ''});
+    setComments({ ...comments, [`${internId}-${period}-${day}`]: '' });
   };
-  
+
   const handleWeek0CommentSubmit = (internId) => {
     const comment = comments[`${internId}-week0`];
     if (!comment?.trim()) return;
-    
+
     const intern = interns.find(i => i.id === internId);
     const week0 = intern.periods?.[0] || { projectTitle: '', summary: '', files: [], comment: '' };
     const updatedIntern = {
@@ -1398,19 +1398,19 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
       }
     };
     onUpdateIntern(updatedIntern);
-    setComments({...comments, [`${internId}-week0`]: ''});
+    setComments({ ...comments, [`${internId}-week0`]: '' });
   };
-  
+
   if (selectedIntern) {
     const intern = interns.find(i => i.id === selectedIntern);
     const periodLength = getPeriodLength(intern.totalDays);
     const totalPeriods = getTotalPeriods(intern.totalDays);
     const currentPeriodData = intern.periods?.[selectedPeriod] || { target: '', days: {} };
     const week0Data = intern.periods?.[0] || { projectTitle: '', summary: '', files: [], comment: '' };
-    
+
     const periodStart = selectedPeriod === 0 ? 0 : ((selectedPeriod - 1) * periodLength) + 1;
     const periodEnd = selectedPeriod === 0 ? 0 : Math.min(selectedPeriod * periodLength, intern.totalDays);
-    
+
     const dayNumber = calculateDayNumber(intern.createdDate);
     const hasWeek0Complete = Boolean(week0Data.projectTitle && week0Data.summary);
     const totalDaysWithProgress = (hasWeek0Complete ? 1 : 0) + Object.values(intern.periods || {}).reduce((acc, period) => {
@@ -1419,7 +1419,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
       }
       return acc;
     }, 0);
-    
+
     return (
       <div className="teacher-detail-view">
         <div className="top-bar">
@@ -1432,14 +1432,14 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
             Logout
           </button>
         </div>
-        
+
         <div className="detail-header">
           <button className="btn-back" onClick={() => setSelectedIntern(null)}>
             ← Back to All Interns
           </button>
           <h1>{intern.name}</h1>
         </div>
-        
+
         <div className="intern-info-card">
           <div className="info-grid">
             <div className="info-item">
@@ -1460,10 +1460,10 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
             </div>
           </div>
         </div>
-        
+
         <div className="period-selector-teacher">
           <label>View Period:</label>
-          <select 
+          <select
             value={selectedPeriod}
             onChange={(e) => setSelectedPeriod(parseInt(e.target.value))}
           >
@@ -1474,7 +1474,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
             ))}
           </select>
         </div>
-        
+
         {selectedPeriod === 0 ? (
           <div className="week0-section week0-teacher">
             <h3>Week 0 – Project Title, Summary & First Week Deliverables</h3>
@@ -1507,7 +1507,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                   <label>Your Feedback on Week 0</label>
                   <textarea
                     value={comments[`${intern.id}-week0`] !== undefined ? comments[`${intern.id}-week0`] : (week0Data.comment || '')}
-                    onChange={(e) => setComments({...comments, [`${intern.id}-week0`]: e.target.value})}
+                    onChange={(e) => setComments({ ...comments, [`${intern.id}-week0`]: e.target.value })}
                     placeholder="Add feedback for the intern's Week 0 submission..."
                     rows={3}
                   />
@@ -1525,87 +1525,87 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
             )}
           </div>
         ) : (
-        <>
-        {currentPeriodData.target && (
-          <div className="target-display-teacher">
-            <h3>{getPeriodLabel(selectedPeriod, intern.totalDays)} Target</h3>
-            <p>{currentPeriodData.target}</p>
-          </div>
-        )}
-        
-        <div className="progress-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Progress Submitted</th>
-                <th>Files</th>
-                <th>Your Feedback</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({length: periodEnd - periodStart + 1}, (_, i) => periodStart + i).map(day => {
-                const dayData = currentPeriodData.days?.[day];
-                const commentKey = `${intern.id}-${selectedPeriod}-${day}`;
-                
-                return (
-                  <tr key={day} className={dayData ? 'has-progress' : 'no-progress'}>
-                    <td className="day-cell">
-                      <strong>Day {day}</strong>
-                      {dayData && <CheckCircle size={14} className="check-small" />}
-                    </td>
-                    <td className="progress-cell">
-                      {dayData?.progress ? (
-                        <p>{dayData.progress}</p>
-                      ) : (
-                        <span className="no-submission">No submission yet</span>
-                      )}
-                    </td>
-                    <td className="file-cell">
-                      {dayData?.file && (
-                        <a
-                          className="file-badge"
-                          href={dayData.file.url}
-                          download={dayData.file.name}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <Upload size={12} />
-                          {dayData.file.name}
-                        </a>
-                      )}
-                    </td>
-                    <td className="comment-cell">
-                      {dayData && (
-                        <div className="comment-input-group">
-                          <textarea
-                            value={comments[commentKey] !== undefined ? comments[commentKey] : (dayData.comment || '')}
-                            onChange={(e) => setComments({...comments, [commentKey]: e.target.value})}
-                            placeholder="Add feedback for this day..."
-                            rows={2}
-                          />
-                          <button 
-                            className="btn-small btn-primary"
-                            onClick={() => handleCommentSubmit(intern.id, selectedPeriod, day)}
-                            disabled={comments[commentKey] === undefined || comments[commentKey] === (dayData.comment || '')}
-                          >
-                            {dayData.comment ? 'Update' : 'Add'} Feedback
-                          </button>
-                        </div>
-                      )}
-                    </td>
+          <>
+            {currentPeriodData.target && (
+              <div className="target-display-teacher">
+                <h3>{getPeriodLabel(selectedPeriod, intern.totalDays)} Target</h3>
+                <p>{currentPeriodData.target}</p>
+              </div>
+            )}
+
+            <div className="progress-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Progress Submitted</th>
+                    <th>Files</th>
+                    <th>Your Feedback</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        </>
+                </thead>
+                <tbody>
+                  {Array.from({ length: periodEnd - periodStart + 1 }, (_, i) => periodStart + i).map(day => {
+                    const dayData = currentPeriodData.days?.[day];
+                    const commentKey = `${intern.id}-${selectedPeriod}-${day}`;
+
+                    return (
+                      <tr key={day} className={dayData ? 'has-progress' : 'no-progress'}>
+                        <td className="day-cell">
+                          <strong>Day {day}</strong>
+                          {dayData && <CheckCircle size={14} className="check-small" />}
+                        </td>
+                        <td className="progress-cell">
+                          {dayData?.progress ? (
+                            <p>{dayData.progress}</p>
+                          ) : (
+                            <span className="no-submission">No submission yet</span>
+                          )}
+                        </td>
+                        <td className="file-cell">
+                          {dayData?.file && (
+                            <a
+                              className="file-badge"
+                              href={dayData.file.url}
+                              download={dayData.file.name}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <Upload size={12} />
+                              {dayData.file.name}
+                            </a>
+                          )}
+                        </td>
+                        <td className="comment-cell">
+                          {dayData && (
+                            <div className="comment-input-group">
+                              <textarea
+                                value={comments[commentKey] !== undefined ? comments[commentKey] : (dayData.comment || '')}
+                                onChange={(e) => setComments({ ...comments, [commentKey]: e.target.value })}
+                                placeholder="Add feedback for this day..."
+                                rows={2}
+                              />
+                              <button
+                                className="btn-small btn-primary"
+                                onClick={() => handleCommentSubmit(intern.id, selectedPeriod, day)}
+                                disabled={comments[commentKey] === undefined || comments[commentKey] === (dayData.comment || '')}
+                              >
+                                {dayData.comment ? 'Update' : 'Add'} Feedback
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     );
   }
-  
+
   return (
     <div className="teacher-dashboard">
       <div className="top-bar">
@@ -1618,7 +1618,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
           Logout
         </button>
       </div>
-      
+
       <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
         <div>
           <h1>Faculty Dashboard</h1>
@@ -1643,20 +1643,20 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                     ['Supervisor', i.supervisor || ''],
                     ['Total Days', i.totalDays || ''],
                     ['Start Date', i.createdDate || ''],
-                    ['Submissions', Object.values(i.periods||{}).reduce((a,p)=>a+Object.keys(p.days||{}).length,0)],
+                    ['Submissions', Object.values(i.periods || {}).reduce((a, p) => a + Object.keys(p.days || {}).length, 0)],
                     ['Project Title', i.periods?.[0]?.projectTitle || ''],
                     ['Project Summary', i.periods?.[0]?.summary || ''],
                     [],
                     ['Period/Week', 'Day', 'Progress', 'Faculty Feedback']
                   ];
-                  Object.entries(i.periods||{}).forEach(([pk,pd]) => {
-                    if(pk==='0') return;
-                    Object.entries(pd.days||{}).forEach(([dk,dd]) => {
-                      profileData.push([`Week ${pk}`, `Day ${dk}`, dd.progress||'', dd.comment||'']);
+                  Object.entries(i.periods || {}).forEach(([pk, pd]) => {
+                    if (pk === '0') return;
+                    Object.entries(pd.days || {}).forEach(([dk, dd]) => {
+                      profileData.push([`Week ${pk}`, `Day ${dk}`, dd.progress || '', dd.comment || '']);
                     });
                   });
                   const ws = XLSX.utils.aoa_to_sheet(profileData);
-                  
+
                   // Apply styles to the Excel sheet
                   const headerStyle = {
                     font: { bold: true, color: { rgb: "FFFFFF" } },
@@ -1667,7 +1667,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                       bottom: { style: "thin", color: { rgb: "000000" } }
                     }
                   };
-                  
+
                   const profileTitleStyle = {
                     font: { bold: true, sz: 14, color: { rgb: "FFFFFF" } },
                     fill: { fgColor: { rgb: "16213E" } },
@@ -1698,7 +1698,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                     if (ws[cell]) ws[cell].s = fieldLabelStyle;
                   }
 
-                  ws['!cols'] = [{wch:20},{wch:35},{wch:40},{wch:30}];
+                  ws['!cols'] = [{ wch: 20 }, { wch: 35 }, { wch: 40 }, { wch: 30 }];
                   // Sanitize: remove chars forbidden in Excel sheet names
                   let baseName = (i.name || i.email || 'Student')
                     .replace(/[:\\/?*[\]]/g, '_')
@@ -1712,8 +1712,8 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                   }
                   XLSX.utils.book_append_sheet(wb, ws, baseName);
                 });
-                const wbout = XLSX.write(wb, {bookType:'xlsx', type:'array'});
-                const blob = new Blob([wbout], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -1734,7 +1734,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
           </button>
         )}
       </div>
-      
+
       {interns.length === 0 ? (
         <div className="empty-state">
           <Users size={64} />
@@ -1771,7 +1771,7 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
               </div>
             </div>
           </div>
-          
+
           <div className="interns-grid">
             {interns.map(intern => {
               const dayNumber = calculateDayNumber(intern.createdDate);
@@ -1783,10 +1783,10 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
                 return acc;
               }, 0);
               const attendanceRate = Math.min(100, Math.round((totalDaysWithProgress / expectedSubmissions) * 100)).toString();
-              
+
               return (
-                <div 
-                  key={intern.id} 
+                <div
+                  key={intern.id}
                   className="intern-card"
                   onClick={() => setSelectedIntern(intern.id)}
                 >
@@ -1859,10 +1859,10 @@ export default function InternTracker() {
         .catch(err => console.log('Backend sync failed. Data is safe in browser storage.'));
     }
   }, [users]);
-  
+
   const handleLogin = (formData, isLogin) => {
     setAuthError('');
-    
+
     if (isLogin) {
       // Handle login
       const user = users.find(u => u.email === formData.email && u.password === formData.password);
@@ -1878,7 +1878,7 @@ export default function InternTracker() {
         setAuthError('An account with this email already exists');
         return;
       }
-      
+
       const newUser = {
         id: `user${Date.now()}`,
         email: formData.email,
@@ -1886,20 +1886,20 @@ export default function InternTracker() {
         type: formData.userType,
         hasProfile: false
       };
-      
+
       if (formData.userType === 'teacher') {
         newUser.name = formData.name;
       }
-      
+
       setUsers([...users, newUser]);
       setCurrentUser(newUser);
     }
   };
-  
+
   const handleLogout = () => {
     setCurrentUser(null);
   };
-  
+
   const handleInternSetupComplete = (internData) => {
     const updatedUser = {
       ...currentUser,
@@ -1909,22 +1909,22 @@ export default function InternTracker() {
         id: `intern${Date.now()}`
       }
     };
-    
+
     setUsers(users.map(u => u.id === currentUser.id ? updatedUser : u));
     setCurrentUser(updatedUser);
   };
-  
+
   const handleUpdateIntern = (updatedInternData) => {
     // Update the user's intern data
     const updatedUser = {
       ...currentUser,
       internData: updatedInternData
     };
-    
+
     setUsers(users.map(u => u.id === currentUser.id ? updatedUser : u));
     setCurrentUser(updatedUser);
   };
-  
+
   const handleTeacherUpdateIntern = (updatedInternData) => {
     // Find the user who owns this intern data and update it
     const userToUpdate = users.find(u => u.internData?.id === updatedInternData.id);
@@ -1936,14 +1936,14 @@ export default function InternTracker() {
       setUsers(users.map(u => u.id === userToUpdate.id ? updatedUser : u));
     }
   };
-  
+
   // Get all interns for teacher view
   const getAllInterns = () => {
     return users
       .filter(u => u.type === 'intern' && u.hasProfile && u.internData)
       .map(u => u.internData);
   };
-  
+
   // Not logged in - show auth screen
   if (!currentUser) {
     return (
@@ -1954,7 +1954,7 @@ export default function InternTracker() {
             {authError}
           </div>
         )}
-        
+
         <style>{`
           * {
             margin: 0;
@@ -3194,7 +3194,7 @@ export default function InternTracker() {
       </div>
     );
   }
-  
+
   // Logged in as intern
   if (currentUser.type === 'intern') {
     // If they don't have a profile yet, show setup
@@ -3205,11 +3205,11 @@ export default function InternTracker() {
         </div>
       );
     }
-    
+
     // Show intern dashboard
     return (
       <div className="app-container">
-        <InternDashboard 
+        <InternDashboard
           intern={currentUser.internData}
           onUpdate={handleUpdateIntern}
           onLogout={handleLogout}
@@ -3218,12 +3218,12 @@ export default function InternTracker() {
       </div>
     );
   }
-  
+
   // Logged in as teacher
   if (currentUser.type === 'teacher') {
     return (
       <div className="app-container">
-        <TeacherDashboard 
+        <TeacherDashboard
           interns={getAllInterns()}
           onUpdateIntern={handleTeacherUpdateIntern}
           onLogout={handleLogout}
