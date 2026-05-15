@@ -1,0 +1,59 @@
+[
+  {
+    "id": "user2",
+    "email": "teacher@demo.com",
+    "password": "demo123",
+    "type": "teacher",
+    "name": "Dr. Ramanathan"
+  },
+  {
+    "id": "user1775206241251",
+    "email": "tr@gmail.com",
+    "password": "teacher",
+    "type": "teacher",
+    "hasProfile": false,
+    "name": "Vinitha"
+  },
+  {
+    "id": "user1778813982377",
+    "email": "kavin@h",
+    "password": "joshika",
+    "type": "intern",
+    "hasProfile": true,
+    "internData": {
+      "id": "intern1778813991366",
+      "name": "kavin",
+      "college": "ceg",
+      "email": "kjh@tgt",
+      "totalDays": 30,
+      "department": "cse",
+      "supervisor": "priya",
+      "createdDate": "2026-05-15",
+      "periods": {
+        "5": {
+          "target": "",
+          "days": {
+            "29": {
+              "progress": " bh",
+              "file": null,
+              "comment": ""
+            },
+            "30": {
+              "progress": "nbh",
+              "file": null,
+              "comment": ""
+            }
+          }
+        },
+        "final": {
+          "completedText": " nbgfdy,bj",
+          "csrFile": {
+            "name": "CAMP DECLARATION FORM 2024 final.pdf",
+            "url": "blob:http://localhost:5174/bb85afe6-ac56-4ac9-9630-a4be3f31debd"
+          },
+          "submitted": true
+        }
+      }
+    }
+  }
+]
