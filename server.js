@@ -51,7 +51,7 @@ app.get('/api/load', (req, res) => {
 
 // ── AI Semantic Analysis (Native Node.js) ──
 app.post('/api/analyze', async (req, res) => {
-  const { summary, progress, totalDays } = req.body;
+  const { summary, progress, totalDays, periodsWithTargets, totalPeriods } = req.body;
   const extractor = await extractorPromise;
   
   if (!summary || !progress || !extractor) {
@@ -63,8 +63,8 @@ app.post('/api/analyze', async (req, res) => {
     const total_slots = totalDays || 35;
     console.log(`[AI] Starting analysis for ${total_slots} day slots...`);
 
-    // 1. Decompose targets into tasks (Semicolons, Newlines, or Periods)
-    const tasks = summary.split(/[;.\n]/).map(t => t.trim()).filter(t => t.length > 2);
+    // 1. Decompose targets into tasks (Semicolons or Newlines)
+    const tasks = summary.split(/[;\n]/).map(t => t.trim()).filter(t => t.length > 2);
     console.log(`[AI] Tasks found: ${tasks.length}`);
     if (tasks.length === 0) return res.json({ similarity: 0 });
 
@@ -88,6 +88,8 @@ app.post('/api/analyze', async (req, res) => {
     let completed = 0;
     const details = [];
 
+    const negationRegex = /\b(not|didn'?t|did not|couldn'?t|could not|failed|incomplete|haven'?t)\b/i;
+
     // 3. For each task, check similarity (Dot Product because vectors are normalized)
     for (let i = 0; i < tasks.length; i++) {
       let best_score = 0;
@@ -99,11 +101,27 @@ app.post('/api/analyze', async (req, res) => {
         for (let k = 0; k < v1.length; k++) {
           dot += v1[k] * v2[k];
         }
-        const score = Math.round(dot * 100);
+        let score = Math.round(dot * 100);
+
+        // Apply a penalty if the progress string text contains negative language
+        if (negationRegex.test(progress_list[j])) {
+          score -= 25;
+        }
+
+        // Apply a penalty if the progress string doesn't even share a single word with the task,
+        // preventing generic or "random" responses from artificially passing the threshold.
+        const taskWords = tasks[i].toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2);
+        const progressLower = progress_list[j].toLowerCase();
+        const hasKeywordMatch = taskWords.some(w => progressLower.includes(w));
+        
+        if (!hasKeywordMatch && score < 82) {
+            score -= 20; 
+        }
+
         best_score = Math.max(best_score, score);
       }
 
-      const is_done = best_score >= 60;
+      const is_done = best_score >= 68;
       if (is_done) completed++;
 
       details.push({
@@ -113,8 +131,13 @@ app.post('/api/analyze', async (req, res) => {
       });
     }
 
-    const similarity = Math.min(100, Math.round((completed / total_slots) * 100));
-    console.log(`[AI] Analysis complete: ${completed}/${total_slots} tasks matched (${similarity}%)`);
+    // 4. Scale by internship coverage: if only 1 of 5 weeks has targets, cap proportionally
+    const taskCompletionRate = completed / tasks.length; // e.g. 3/4 = 0.75
+    const coverageRate = (periodsWithTargets && totalPeriods) 
+      ? Math.min(1, periodsWithTargets / totalPeriods)  // e.g. 1/5 = 0.2
+      : 1;
+    const similarity = Math.min(100, Math.round(taskCompletionRate * coverageRate * 100));
+    console.log(`[AI] Analysis complete: ${completed}/${tasks.length} tasks matched, coverage ${periodsWithTargets}/${totalPeriods} periods => ${similarity}%`);
 
     res.json({
       similarity,

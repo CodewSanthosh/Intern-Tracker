@@ -696,10 +696,20 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
             onClick={async () => {
               setIsAnalyzing(true);
               let summary = "";
-              // Use all weekly targets to compare progress
-              Object.values(intern.periods || {}).forEach(period => {
-                if (period.target) summary += period.target + ". ";
+              let periodsWithTargets = 0;
+              Object.entries(intern.periods || {}).forEach(([key, period]) => {
+                if (key !== "0" && period.target && period.target.trim()) {
+                  summary += period.target + "; ";
+                  periodsWithTargets++;
+                }
               });
+              if (!summary.trim()) {
+                summary = intern.periods?.[0]?.summary || intern.periods?.[0]?.projectTitle || "";
+                periodsWithTargets = 1;
+              }
+              
+              const pLength = getPeriodLength(intern.totalDays);
+              const totalPeriodsCount = Math.ceil(intern.totalDays / pLength);
 
               let allProgressList = [];
               Object.values(intern.periods || {}).forEach(period => {
@@ -719,7 +729,9 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
                   body: JSON.stringify({
                     summary,
                     progress: allProgressList,
-                    totalDays: intern.totalDays || 35
+                    totalDays: intern.totalDays || 35,
+                    periodsWithTargets,
+                    totalPeriods: totalPeriodsCount
                   })
                 });
 
