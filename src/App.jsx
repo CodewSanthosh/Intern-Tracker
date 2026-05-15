@@ -18,7 +18,7 @@ const calculateDayNumber = (intern) => {
   let daysSubmitted = 0;
   Object.values(intern.periods).forEach(period => {
     if (period && typeof period === 'object' && period.days) {
-      daysSubmitted += Object.values(period.days).filter(d => isMeaningfulProgress(d.progress)).length;
+      daysSubmitted += Object.values(period.days).filter(d => hasAnyProgress(d.progress)).length;
     }
   });
   return Math.max(1, Math.min(daysSubmitted + 1, intern.totalDays || 1));
@@ -42,6 +42,13 @@ const getTotalPeriods = (totalDays) => {
   return 1 + Math.ceil(totalDays / len);
 };
 
+// Lenient check: did the user submit anything at all? Used for day advancement.
+const hasAnyProgress = (text) => {
+  if (!text) return false;
+  return text.trim().length >= 3;
+};
+
+// Strict check: is the submission meaningful? Used for attendance stats.
 const isMeaningfulProgress = (text) => {
   if (!text) return false;
   const words = text.trim().split(/\s+/).filter(w => w.length >= 2);
