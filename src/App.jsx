@@ -501,12 +501,21 @@ const InternDashboard = ({ intern, onUpdate, onLogout, userEmail }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPeriod, periods]);
-  // Calculate attendance (Week 0 counts as 1, plus daily submissions)
-  const totalDaysWithProgress = (hasWeek0Complete ? 1 : 0) + Object.values(periods).reduce((acc, period) => {
-    if (period && typeof period === 'object' && period.days) {
-      return acc + Object.values(period.days).filter(d => isMeaningfulProgress(d.progress)).length;
-    }
-    return acc;
+  // Calculate attendance (Week 0 counts as 1, plus daily submissions that are relevant to the target)
+  const ATTENDANCE_STOPWORDS = new Set(['the','a','an','is','are','was','were','be','been','to','of','in','for','on','with','at','by','from','and','or','but','if','that','this','all','my','we','it','do','did','has','had','have','not','will','would','can','could']);
+  const totalDaysWithProgress = (hasWeek0Complete ? 1 : 0) + Object.entries(periods).reduce((acc, [pKey, period]) => {
+    if (!period || typeof period !== 'object' || !period.days) return acc;
+    const target = (period.target || '').toLowerCase();
+    const targetWords = target.replace(/[^\w\s]/gi, '').split(/\s+/).filter(w => w.length > 2 && !ATTENDANCE_STOPWORDS.has(w));
+    
+    return acc + Object.values(period.days).filter(d => {
+      if (!isMeaningfulProgress(d.progress)) return false;
+      // If no target is set for this period, just accept meaningful text
+      if (targetWords.length === 0) return true;
+      // Check if the progress shares at least one keyword with the target
+      const progressLower = d.progress.toLowerCase();
+      return targetWords.some(w => progressLower.includes(w));
+    }).length;
   }, 0);
 
   const periodStart = selectedPeriod === 0 ? 0 : ((selectedPeriod - 1) * periodLength) + 1;
