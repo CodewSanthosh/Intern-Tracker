@@ -330,14 +330,15 @@ const AuthScreen = ({ onLogin }) => {
 };
 
 // Intern Profile Setup Component
-const InternProfileSetup = ({ onComplete }) => {
+const InternProfileSetup = ({ onComplete, teachers = [] }) => {
   const [formData, setFormData] = useState({
     name: '',
     college: '',
     email: '',
     totalDays: 30,
     department: '',
-    supervisor: ''
+    supervisor: '',
+    supervisorId: ''
   });
 
   const handleSubmit = (e) => {
@@ -421,13 +422,30 @@ const InternProfileSetup = ({ onComplete }) => {
           </div>
 
           <div className="form-group">
-            <label>Faculty Supervisor</label>
-            <input
-              type="text"
-              value={formData.supervisor}
-              onChange={(e) => setFormData({ ...formData, supervisor: e.target.value })}
-              placeholder="Supervisor name (optional)"
-            />
+            <label>Faculty Supervisor *</label>
+            <div className="dropdown">
+              <select
+                required
+                value={formData.supervisorId}
+                onChange={(e) => {
+                  const selected = teachers.find(t => t.id === e.target.value);
+                  setFormData({
+                    ...formData,
+                    supervisorId: e.target.value,
+                    supervisor: selected ? selected.name : ''
+                  });
+                }}
+              >
+                <option value="">-- Select Faculty --</option>
+                {teachers.map(t => (
+                  <option key={t.id} value={t.id}>{t.name} ({t.email})</option>
+                ))}
+              </select>
+              <ChevronDown size={18} />
+            </div>
+            {teachers.length === 0 && (
+              <small style={{ color: '#FF6B6B' }}>No faculty registered yet. Ask your teacher to create an account first.</small>
+            )}
           </div>
         </div>
 
@@ -1968,7 +1986,7 @@ export default function InternTracker() {
   // Get all interns for teacher view
   const getAllInterns = () => {
     return users
-      .filter(u => u.type === 'intern' && u.hasProfile && u.internData)
+      .filter(u => u.type === 'intern' && u.hasProfile && u.internData && u.internData.supervisorId === currentUser.id)
       .map(u => u.internData);
   };
 
@@ -3229,7 +3247,7 @@ export default function InternTracker() {
     if (!currentUser.hasProfile) {
       return (
         <div className="app-container">
-          <InternProfileSetup onComplete={handleInternSetupComplete} />
+          <InternProfileSetup onComplete={handleInternSetupComplete} teachers={users.filter(u => u.type === 'teacher')} />
         </div>
       );
     }
