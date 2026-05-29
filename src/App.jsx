@@ -1900,6 +1900,7 @@ export default function InternTracker() {
   const [currentUser, setCurrentUser] = useLocalStorageState('anna_univ_current_user', null);
   const [authError, setAuthError] = useState('');
   const [signupSuccess, setSignupSuccess] = useState('');
+  const [pendingInternUser, setPendingInternUser] = useState(null);
   const backendLoaded = React.useRef(false);
 
   // Load data from backend on startup (primary source of truth)
@@ -1975,14 +1976,36 @@ export default function InternTracker() {
       }
 
       setUsers([...users, newUser]);
-      // Redirect to login page instead of auto-login
-      setSignupSuccess('Account created successfully! Please login.');
+
+      if (formData.userType === 'intern') {
+        // Show intern registration form before redirecting to login
+        setPendingInternUser(newUser);
+      } else {
+        // Teacher goes straight to login
+        setSignupSuccess('Account created successfully! Please login.');
+      }
     }
+  };
+
+  // Handle intern profile completion during signup flow
+  const handlePendingInternComplete = (internData) => {
+    const updatedUser = {
+      ...pendingInternUser,
+      hasProfile: true,
+      internData: {
+        ...internData,
+        id: `intern${Date.now()}`
+      }
+    };
+    setUsers(prev => prev.map(u => u.id === pendingInternUser.id ? updatedUser : u));
+    setPendingInternUser(null);
+    setSignupSuccess('Registration complete! Please login.');
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
     setSignupSuccess('');
+    setPendingInternUser(null);
   };
 
   const handleInternSetupComplete = (internData) => {
@@ -2028,6 +2051,15 @@ export default function InternTracker() {
       .filter(u => u.type === 'intern' && u.hasProfile && u.internData && u.internData.supervisorId === currentUser.id)
       .map(u => u.internData);
   };
+
+  // Intern just signed up - show profile form before login
+  if (pendingInternUser) {
+    return (
+      <div className="app-container">
+        <InternProfileSetup onComplete={handlePendingInternComplete} teachers={users.filter(u => u.type === 'teacher')} />
+      </div>
+    );
+  }
 
   // Not logged in - show auth screen
   if (!currentUser) {
