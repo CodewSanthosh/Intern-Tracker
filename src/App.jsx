@@ -103,7 +103,7 @@ const INITIAL_DATA = {
 };
 
 // Login/Signup Component
-const AuthScreen = ({ onLogin }) => {
+const AuthScreen = ({ onLogin, signupSuccess, onClearSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -114,12 +114,29 @@ const AuthScreen = ({ onLogin }) => {
   });
   const [error, setError] = useState('');
 
+  // When signup succeeds, switch to login tab
+  useEffect(() => {
+    if (signupSuccess) {
+      setIsLogin(true);
+      setFormData({ email: '', password: '', confirmPassword: '', name: '', userType: 'intern' });
+    }
+  }, [signupSuccess]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
+    if (onClearSuccess) onClearSuccess();
 
     if (!isLogin) {
       // Signup validation
+      if (!formData.email.endsWith('@gmail.com')) {
+        setError('Email must end with @gmail.com');
+        return;
+      }
+      if (formData.email === formData.password) {
+        setError('Password cannot be the same as email');
+        return;
+      }
       if (formData.password !== formData.confirmPassword) {
         setError('Passwords do not match');
         return;
@@ -130,6 +147,12 @@ const AuthScreen = ({ onLogin }) => {
       }
       if (formData.userType === 'teacher' && !formData.name) {
         setError('Please enter your name');
+        return;
+      }
+    } else {
+      // Login validation
+      if (!formData.email.endsWith('@gmail.com')) {
+        setError('Email must end with @gmail.com');
         return;
       }
     }
@@ -147,6 +170,11 @@ const AuthScreen = ({ onLogin }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {signupSuccess && (
+            <div className="success-message" style={{ background: 'rgba(78,205,196,0.15)', border: '1px solid rgba(78,205,196,0.4)', color: '#4ECDC4', padding: '12px 16px', borderRadius: '10px', marginBottom: '16px', fontSize: '14px', fontWeight: '600', textAlign: 'center' }}>
+              ✅ {signupSuccess}
+            </div>
+          )}
           {error && (
             <div className="error-message">
               {error}
@@ -438,7 +466,7 @@ const InternProfileSetup = ({ onComplete, teachers = [] }) => {
               >
                 <option value="">-- Select Faculty --</option>
                 {teachers.map(t => (
-                  <option key={t.id} value={t.id}>{t.name} ({t.email})</option>
+                  <option key={t.id} value={t.id}>{t.name}</option>
                 ))}
               </select>
               <ChevronDown size={18} />
@@ -1869,8 +1897,9 @@ const TeacherDashboard = ({ interns, onUpdateIntern, onLogout, userName, userEma
 // Main App Component
 export default function InternTracker() {
   const [users, setUsers] = useLocalStorageState('anna_univ_users', INITIAL_DATA.users);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useLocalStorageState('anna_univ_current_user', null);
   const [authError, setAuthError] = useState('');
+  const [signupSuccess, setSignupSuccess] = useState('');
   const backendLoaded = React.useRef(false);
 
   // Load data from backend on startup (primary source of truth)
@@ -1919,6 +1948,14 @@ export default function InternTracker() {
       }
     } else {
       // Handle signup
+      if (!formData.email.endsWith('@gmail.com')) {
+        setAuthError('Email must end with @gmail.com');
+        return;
+      }
+      if (formData.email === formData.password) {
+        setAuthError('Password cannot be the same as email');
+        return;
+      }
       const existingUser = users.find(u => u.email === formData.email);
       if (existingUser) {
         setAuthError('An account with this email already exists');
@@ -1938,12 +1975,14 @@ export default function InternTracker() {
       }
 
       setUsers([...users, newUser]);
-      setCurrentUser(newUser);
+      // Redirect to login page instead of auto-login
+      setSignupSuccess('Account created successfully! Please login.');
     }
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
+    setSignupSuccess('');
   };
 
   const handleInternSetupComplete = (internData) => {
@@ -1994,7 +2033,7 @@ export default function InternTracker() {
   if (!currentUser) {
     return (
       <div className="app-container">
-        <AuthScreen onLogin={handleLogin} />
+        <AuthScreen onLogin={handleLogin} signupSuccess={signupSuccess} onClearSuccess={() => setSignupSuccess('')} />
         {authError && (
           <div className="auth-error-toast">
             {authError}
