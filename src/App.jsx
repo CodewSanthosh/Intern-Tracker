@@ -362,7 +362,6 @@ const InternProfileSetup = ({ onComplete, teachers = [] }) => {
   const [formData, setFormData] = useState({
     name: '',
     college: '',
-    email: '',
     totalDays: 30,
     department: '',
     supervisor: '',
@@ -397,17 +396,6 @@ const InternProfileSetup = ({ onComplete, teachers = [] }) => {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Enter your full name"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Email Address *</label>
-            <input
-              type="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="your.email@annauniv.edu"
             />
           </div>
 
